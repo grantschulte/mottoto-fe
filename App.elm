@@ -9,9 +9,9 @@ import Html.Events exposing (..)
 
 
 type alias Model =
-    { content : String
-    , emoji : String
-    , inputContent : String
+    { emoji : String
+    , input : String
+    , motto : String
     }
 
 
@@ -25,8 +25,9 @@ type alias MottoContent =
 
 initModel : Model
 initModel =
-    { content = "My name is Alex."
-    , emoji = "smiley"
+    { emoji = "smiley"
+    , input = ""
+    , motto = "My name is Alex."
     }
 
 
@@ -41,8 +42,8 @@ init =
 
 type Msg
     = NoOp
-    | UpdateMottoContent MottoContent
-    | UpdateInputContent InputContent
+    | UpdateMotto MottoContent
+    | UpdateInput InputContent
 
 
 
@@ -55,14 +56,14 @@ view model =
         [ h1 []
             [ text "Motto" ]
         , div []
-            [ text model.content ]
+            [ text model.motto ]
         , h1 []
             [ text "Emoji class" ]
         , div []
             [ text model.emoji ]
         , div [ formWrapperStyle ]
             [ input [ inputStyle, placeholder "Enter motto", onInput UpdateInput ] []
-            , button [ onClick (Update "Hello") ] [ text "Update" ]
+            , button [ onClick (UpdateMotto model.input) ] [ text "Update" ]
             ]
         ]
 
@@ -109,10 +110,10 @@ update msg model =
             ( model, Cmd.none )
 
         UpdateInput inputContent ->
-            ( { model | inputContent = inputContent }, Cmd.none )
+            ( { model | input = inputContent }, Cmd.none )
 
-        UpdateContent mottoContent ->
-            ( { model | mottoContent = mottoContent }, Cmd.none )
+        UpdateMotto mottoContent ->
+            ( { model | motto = mottoContent }, Cmd.none )
 
 
 
