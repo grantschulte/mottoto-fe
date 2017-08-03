@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Encode as Encode
+import UrlParser exposing ((</>), int, parseHash, s, string)
 
 
 -- MODEL
@@ -11,7 +12,6 @@ import Json.Encode as Encode
 
 type alias Model =
     { author : String
-    , emoji : String
     , input : String
     , motto : String
     }
@@ -32,7 +32,6 @@ type alias Author =
 initModel : Model
 initModel =
     { author = "Alex"
-    , emoji = "smiley"
     , input = ""
     , motto = "Keep it right. Keep it tight."
     }
