@@ -3,31 +3,38 @@ module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Json.Encode as Encode
 
 
 -- MODEL
 
 
 type alias Model =
-    { emoji : String
+    { author : String
+    , emoji : String
     , input : String
     , motto : String
     }
 
 
-type alias InputContent =
+type alias Input =
     String
 
 
-type alias MottoContent =
+type alias Motto =
+    String
+
+
+type alias Author =
     String
 
 
 initModel : Model
 initModel =
-    { emoji = "smiley"
+    { author = "Alex"
+    , emoji = "smiley"
     , input = ""
-    , motto = "My name is Alex."
+    , motto = "Keep it right. Keep it tight."
     }
 
 
@@ -42,8 +49,8 @@ init =
 
 type Msg
     = NoOp
-    | UpdateMotto MottoContent
-    | UpdateInput InputContent
+    | UpdateMotto Motto
+    | UpdateInput Input
 
 
 
@@ -56,11 +63,14 @@ view model =
         [ h1 []
             [ text "Motto" ]
         , div []
-            [ text model.motto ]
-        , h1 []
-            [ text "Emoji class" ]
+            [ quotationMarkSpan "&ldquo;"
+            , span [ mottoStyle ] [ text model.motto ]
+            , quotationMarkSpan "&rdquo;"
+            ]
+        , h2 []
+            [ text "Author" ]
         , div []
-            [ text model.emoji ]
+            [ text model.author ]
         , div [ formWrapperStyle ]
             [ input [ inputStyle, placeholder "Enter motto", onInput UpdateInput ] []
             , button [ onClick (UpdateMotto model.input) ] [ text "Update" ]
@@ -68,8 +78,18 @@ view model =
         ]
 
 
+quotationMarkSpan : String -> Html Msg
+quotationMarkSpan entity =
+    span [ quotationMarkStyle, encodeEntityToInnerHtml entity ] []
 
--- STYLE ATTRIBUTES
+
+encodeEntityToInnerHtml : String -> Attribute msg
+encodeEntityToInnerHtml entity =
+    property "innerHTML" (Encode.string entity)
+
+
+
+-- STYLE
 
 
 pageWrapperStyle : Attribute msg
@@ -97,6 +117,18 @@ inputStyle =
         , ( "font-family", "Helvetica" )
         , ( "padding", "5px" )
         ]
+
+
+mottoStyle : Attribute msg
+mottoStyle =
+    style
+        [ ( "font-size", "18px" ) ]
+
+
+quotationMarkStyle : Attribute msg
+quotationMarkStyle =
+    style
+        [ ( "font-size", "18px" ) ]
 
 
 
