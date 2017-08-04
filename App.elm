@@ -4,10 +4,10 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Encode as Encode
-import UrlParser exposing ((</>), int, parseHash, s, string)
+import UrlParser exposing ((</>), int, parseHash, parsePath, s, string)
 
 
--- MODEL
+-- MODEL,
 
 
 type alias Model =
@@ -27,6 +27,11 @@ type alias Motto =
 
 type alias Author =
     String
+
+
+type Route
+    = Author String
+    | Motto String
 
 
 initModel : Model
