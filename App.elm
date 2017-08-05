@@ -62,23 +62,17 @@ view model =
 mottoContent : Model -> Html Msg
 mottoContent model =
     div [ class "motto", sectionStyle ]
-        [ h1 [ marginBottom "5px" ]
-            [ text "Motto" ]
-        , p []
-            [ quotationMarkSpan "&ldquo;"
-            , span [ mottoStyle ] [ text (decodeMotto model.motto) ]
-            , quotationMarkSpan "&rdquo;"
-            ]
+        [ quotationMarkSpan "&ldquo;"
+        , span [ mottoStyle ] [ text (decodeMotto model.motto) ]
+        , quotationMarkSpan "&rdquo;"
         ]
 
 
 authorContent : Model -> Html Msg
 authorContent model =
     div [ class "author", sectionStyle ]
-        [ h2 [ marginBottom "5px" ]
-            [ text "Author" ]
-        , p []
-            [ text (String.Extra.toSentenceCase model.author) ]
+        [ p [ authorStyle ]
+            [ text (formatAuthorString model.author) ]
         ]
 
 
@@ -90,6 +84,11 @@ encodeEntityToInnerHtml entity =
 quotationMarkSpan : String -> Html Msg
 quotationMarkSpan entity =
     span [ quotationMarkStyle, encodeEntityToInnerHtml entity ] []
+
+
+formatAuthorString : String -> String
+formatAuthorString author =
+    "-" ++ String.Extra.toSentenceCase author
 
 
 decodeMotto : Motto -> Motto
@@ -109,29 +108,39 @@ decodeMotto motto =
 pageWrapperStyle : Attribute msg
 pageWrapperStyle =
     style
-        [ ( "backgroundColor", "#F9F9F9" )
-        , ( "padding", "40px" )
-        , ( "font-size", "16px" )
-        , ( "font-family", "Helvetica" )
+        [ ( "background-color", "#7E5A9B" )
+        , ( "color", "#E4B7E5" )
+        , ( "font-family", "Georgia, Times New Roman, serif" )
+        , ( "height", "100%" )
+        , ( "position", "absolute" )
+        , ( "width", "100%" )
         ]
 
 
 mottoStyle : Attribute msg
 mottoStyle =
     style
-        [ ( "font-size", "18px" ) ]
+        [ ( "font-size", "56px" ) ]
+
+
+authorStyle : Attribute msg
+authorStyle =
+    style
+        [ ( "font-size", "46px" )
+        , ( "text-align", "right" )
+        ]
 
 
 quotationMarkStyle : Attribute msg
 quotationMarkStyle =
     style
-        [ ( "font-size", "18px" ) ]
+        [ ( "font-size", "56px" ) ]
 
 
 sectionStyle : Attribute msg
 sectionStyle =
     style
-        [ ( "margin", "30px 0px" ) ]
+        [ ( "margin", "80px" ) ]
 
 
 marginBottom : String -> Attribute msg
