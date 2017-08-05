@@ -6,6 +6,7 @@ import Html.Events exposing (..)
 import Http exposing (..)
 import Json.Encode as Encode
 import Navigation exposing (..)
+import String.Extra exposing (..)
 import UrlParser exposing ((</>), int, parseHash, parsePath, s, string)
 
 
@@ -77,7 +78,7 @@ authorContent model =
         [ h2 [ marginBottom "5px" ]
             [ text "Author" ]
         , p []
-            [ text model.author ]
+            [ text (String.Extra.toSentenceCase model.author) ]
         ]
 
 
@@ -148,9 +149,6 @@ update msg model =
     case msg of
         UrlChange location ->
             ( parseModelFromUrl location, Cmd.none )
-
-        _ ->
-            ( model, Cmd.none )
 
 
 parseModelFromUrl : Location -> Model
