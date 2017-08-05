@@ -43,8 +43,7 @@ init location =
 
 
 type Msg
-    = NoOp
-    | UrlChange Navigation.Location
+    = UrlChange Navigation.Location
 
 
 
