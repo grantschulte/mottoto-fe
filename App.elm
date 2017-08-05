@@ -4,21 +4,17 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Encode as Encode
+import Navigation exposing (..)
 import UrlParser exposing ((</>), int, parseHash, parsePath, s, string)
 
 
--- MODEL,
+-- MODEL
 
 
 type alias Model =
     { author : String
-    , input : String
     , motto : String
     }
-
-
-type alias Input =
-    String
 
 
 type alias Motto =
@@ -29,21 +25,15 @@ type alias Author =
     String
 
 
-type Route
-    = Author String
-    | Motto String
-
-
 initModel : Model
 initModel =
     { author = "Alex"
-    , input = ""
     , motto = "Keep it right. Keep it tight."
     }
 
 
-init : ( Model, Cmd Msg )
-init =
+init : Location -> ( Model, Cmd Msg )
+init location =
     ( initModel, Cmd.none )
 
 
@@ -53,8 +43,7 @@ init =
 
 type Msg
     = NoOp
-    | UpdateMotto Motto
-    | UpdateInput Input
+    | UrlChange Navigation.Location
 
 
 
@@ -64,6 +53,19 @@ type Msg
 view : Model -> Html Msg
 view model =
     div [ pageWrapperStyle ]
+        [ mottoContent model
+        , authorContent model
+        ]
+
+
+encodeEntityToInnerHtml : String -> Attribute msg
+encodeEntityToInnerHtml entity =
+    property "innerHTML" (Encode.string entity)
+
+
+mottoContent : Model -> Html Msg
+mottoContent model =
+    div [ class "motto" ]
         [ h1 []
             [ text "Motto" ]
         , div []
@@ -71,25 +73,22 @@ view model =
             , span [ mottoStyle ] [ text model.motto ]
             , quotationMarkSpan "&rdquo;"
             ]
-        , h2 []
+        ]
+
+
+authorContent : Model -> Html Msg
+authorContent model =
+    div [ class "author" ]
+        [ h2 []
             [ text "Author" ]
         , div []
             [ text model.author ]
-        , div [ formWrapperStyle ]
-            [ input [ inputStyle, placeholder "Enter motto", onInput UpdateInput ] []
-            , button [ onClick (UpdateMotto model.input) ] [ text "Update" ]
-            ]
         ]
 
 
 quotationMarkSpan : String -> Html Msg
 quotationMarkSpan entity =
     span [ quotationMarkStyle, encodeEntityToInnerHtml entity ] []
-
-
-encodeEntityToInnerHtml : String -> Attribute msg
-encodeEntityToInnerHtml entity =
-    property "innerHTML" (Encode.string entity)
 
 
 
@@ -142,14 +141,11 @@ quotationMarkStyle =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
+        UrlChange location ->
             ( model, Cmd.none )
 
-        UpdateInput inputContent ->
-            ( { model | input = inputContent }, Cmd.none )
-
-        UpdateMotto mottoContent ->
-            ( { model | motto = mottoContent }, Cmd.none )
+        _ ->
+            ( model, Cmd.none )
 
 
 
@@ -167,7 +163,7 @@ subscriptions model =
 
 main : Program Never Model Msg
 main =
-    program
+    Navigation.program UrlChange
         { init = init
         , view = view
         , update = update
