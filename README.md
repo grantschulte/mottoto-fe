@@ -12,8 +12,8 @@ Run `elm-reactor` and check out `http://localhost:8000/App.elm`
 # Easy-Sleazy Use Case
 This app runs off data from your the browser location.
 
-It looks for a URL with this format:
-/#/author/:author/motto/:motto
+It accepts a path with this format and displays your motto.
+`/#/author/:author/motto/:motto`
 
 Replace `:author` with a valid url encoded author name string and `:motto` with a valid url encoded motto string to change displayed author and motto text.
 
