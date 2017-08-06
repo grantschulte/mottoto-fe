@@ -5,26 +5,16 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http exposing (..)
 import Json.Encode as Encode
+import Messages.Main exposing (..)
+import Models.Main exposing (Author, Model, Motto, decodeAuthorString)
 import Navigation exposing (..)
 import String.Extra exposing (..)
 import UrlParser exposing ((</>), int, parseHash, parsePath, s, string)
+import Views.Header exposing (..)
+import Views.Motto exposing (..)
 
 
 -- MODEL
-
-
-type alias Model =
-    { author : Author
-    , motto : Motto
-    }
-
-
-type alias Motto =
-    String
-
-
-type alias Author =
-    String
 
 
 initModel : Model
@@ -40,65 +30,26 @@ init location =
 
 
 
--- MESSAGES
-
-
-type Msg
-    = UrlChange Navigation.Location
-
-
-
 -- VIEW
 
 
 view : Model -> Html Msg
 view model =
     div [ pageWrapperStyle ]
-        [ mottoContent model
-        , authorContent model
+        [ Views.Header.view model
+        , div [ contentWrapperStyle ]
+            [ page model ]
         ]
 
 
-mottoContent : Model -> Html Msg
-mottoContent model =
-    div [ class "motto", sectionStyle ]
-        [ quotationMarkSpan "&ldquo;"
-        , span [ mottoStyle ] [ text (decodeMotto model.motto) ]
-        , quotationMarkSpan "&rdquo;"
-        ]
+page : Model -> Html Msg
+page model =
+    case model.author of
+        "" ->
+            text "Some direction would be nice..."
 
-
-authorContent : Model -> Html Msg
-authorContent model =
-    div [ class "author", sectionStyle ]
-        [ p [ authorStyle ]
-            [ text (formatAuthorString model.author) ]
-        ]
-
-
-encodeEntityToInnerHtml : String -> Attribute msg
-encodeEntityToInnerHtml entity =
-    property "innerHTML" (Encode.string entity)
-
-
-quotationMarkSpan : String -> Html Msg
-quotationMarkSpan entity =
-    span [ quotationMarkStyle, encodeEntityToInnerHtml entity ] []
-
-
-formatAuthorString : String -> String
-formatAuthorString author =
-    "-" ++ String.Extra.toSentenceCase author
-
-
-decodeMotto : Motto -> Motto
-decodeMotto motto =
-    case decodeUri motto of
-        Nothing ->
-            motto
-
-        Just decoded ->
-            decoded
+        _ ->
+            Views.Motto.view model
 
 
 
@@ -117,36 +68,14 @@ pageWrapperStyle =
         ]
 
 
-mottoStyle : Attribute msg
-mottoStyle =
+contentWrapperStyle : Attribute msg
+contentWrapperStyle =
     style
-        [ ( "font-size", "56px" ) ]
-
-
-authorStyle : Attribute msg
-authorStyle =
-    style
-        [ ( "font-size", "46px" )
-        , ( "text-align", "right" )
+        [ ( "width", "100%" )
+        , ( "margin", "60px auto 0" )
+        , ( "padding", "40px 20px" )
+        , ( "box-sizing", "border-box" )
         ]
-
-
-quotationMarkStyle : Attribute msg
-quotationMarkStyle =
-    style
-        [ ( "font-size", "56px" ) ]
-
-
-sectionStyle : Attribute msg
-sectionStyle =
-    style
-        [ ( "margin", "80px" ) ]
-
-
-marginBottom : String -> Attribute msg
-marginBottom value =
-    style
-        [ ( "margin-bottom", value ) ]
 
 
 
