@@ -12,6 +12,7 @@ import String.Extra exposing (..)
 import UrlParser exposing ((</>), int, parseHash, parsePath, s, string)
 import Views.Header exposing (..)
 import Views.Motto exposing (..)
+import Views.Welcome exposing (..)
 
 
 -- MODEL
@@ -46,7 +47,7 @@ page : Model -> Html Msg
 page model =
     case model.author of
         "" ->
-            text "Some direction would be nice..."
+            Views.Welcome.view model
 
         _ ->
             Views.Motto.view model

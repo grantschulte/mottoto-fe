@@ -2,10 +2,10 @@ module Views.Motto exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Messages.Main exposing (Msg)
-import Models.Main exposing (Model, Motto)
 import Http exposing (decodeUri)
 import Json.Encode as Encode
+import Messages.Main exposing (Msg)
+import Models.Main exposing (Model, Motto)
 
 
 -- VIEW
@@ -40,6 +40,7 @@ decodeMotto motto =
             decoded
 
 
+
 -- STYLES
 
 
@@ -47,6 +48,7 @@ mottoWrapperStyle : Attribute msg
 mottoWrapperStyle =
     style
         [ ( "margin", "-60px 0 0 0" ) ]
+
 
 mottoStyle : Attribute msg
 mottoStyle =

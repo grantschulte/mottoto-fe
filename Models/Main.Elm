@@ -22,7 +22,7 @@ authorString : String -> String
 authorString author =
     case author of
         "" ->
-            "create"
+            ""
 
         _ ->
             "- " ++ String.Extra.decapitalize author
