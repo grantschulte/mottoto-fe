@@ -3,6 +3,7 @@ module Models.Main exposing (..)
 import Http exposing (..)
 import String.Extra exposing (..)
 
+
 type alias Motto =
     String
 

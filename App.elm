@@ -71,8 +71,15 @@ pageWrapperStyle =
 contentWrapperStyle : Attribute msg
 contentWrapperStyle =
     style
-        [ ( "width", "100%" )
-        , ( "margin", "60px auto 0" )
+        [ ( "position", "fixed" )
+        , ( "display", "flex" )
+        , ( "align-items", "center" )
+        , ( "justify-content", "center" )
+        , ( "top", "60px" )
+        , ( "left", "0" )
+        , ( "width", "100%" )
+        , ( "height", "calc(100% - 60px)" )
+        , ( "margin", "0 auto" )
         , ( "padding", "40px 20px" )
         , ( "box-sizing", "border-box" )
         ]

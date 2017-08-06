@@ -7,6 +7,7 @@ import Models.Main exposing (Model, Motto)
 import Http exposing (decodeUri)
 import Json.Encode as Encode
 
+
 -- VIEW
 
 
@@ -45,7 +46,7 @@ decodeMotto motto =
 mottoWrapperStyle : Attribute msg
 mottoWrapperStyle =
     style
-        [ ( "margin", "20px 0" ) ]
+        [ ( "margin", "-60px 0 0 0" ) ]
 
 mottoStyle : Attribute msg
 mottoStyle =
