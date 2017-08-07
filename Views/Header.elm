@@ -20,7 +20,10 @@ userActions : Model -> Html Msg
 userActions model =
     case model.author of
         Nothing ->
-            a [ href "#/new-author", linkStyle ] [ text "Create Handle" ]
+            if model.page == Models.Main.NewHandlePage then
+                a [ href "#/login", linkStyle ] [ text "Login" ]
+            else
+                a [ href "#/handle", linkStyle ] [ text "Create Handle" ]
 
         Just author ->
             text (authorString (decodeString author.name))

@@ -13,6 +13,7 @@ import UrlParser exposing ((</>), Parser, int, oneOf, parseHash, parsePath, s, s
 import Views.Author exposing (..)
 import Views.Header exposing (..)
 import Views.Login exposing (..)
+import Views.Motto exposing (..)
 import Views.NewHandle exposing (..)
 import Views.Welcome exposing (..)
 
@@ -60,6 +61,9 @@ page model =
 
         Models.Main.LoginPage ->
             Views.Login.view model
+
+        Models.Main.MottoPage ->
+            Views.Motto.view model
 
         _ ->
             div []
@@ -116,6 +120,7 @@ routeMatchers =
         [ UrlParser.map Models.Main.WelcomePage top
         , UrlParser.map Models.Main.NewHandlePage (UrlParser.s "handle")
         , UrlParser.map Models.Main.LoginPage (UrlParser.s "login")
+        , UrlParser.map Models.Main.MottoPage (UrlParser.s "motto")
         , UrlParser.map Models.Main.AuthorPage (UrlParser.s "author" </> string)
         ]
 

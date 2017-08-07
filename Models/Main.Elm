@@ -21,7 +21,7 @@ type alias Author =
 type Page
     = AuthorPage AuthorId
     | LoginPage
-    | Motto
+    | MottoPage
     | NewHandlePage
     | Profile
     | WelcomePage
