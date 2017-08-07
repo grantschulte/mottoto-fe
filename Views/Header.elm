@@ -10,7 +10,7 @@ view : Model -> Html Msg
 view model =
     header [ headerStyle ]
         [ div [ columnStyle ] [ text "Mottoto" ]
-        , div [ columnStyle, authorStyle ]
+        , div [ columnStyle, linkStyle ]
             [ userActions model ]
         ]
 
@@ -19,7 +19,7 @@ userActions : Model -> Html Msg
 userActions model =
     case model.author of
         Nothing ->
-            a [ href "/#/create" ] [ text "Create Motto" ]
+            a [ href "#/create", linkStyle ] [ text "Create Motto" ]
 
         Just author ->
             text (authorString (decodeString author.name))
@@ -47,9 +47,12 @@ columnStyle =
         [ ( "width", "50%" ) ]
 
 
-authorStyle : Attribute msg
-authorStyle =
+linkStyle : Attribute msg
+linkStyle =
     style
         [ ( "text-align", "right" )
+        , ( "text-decoration", "none" )
+        , ( "font-size", "18px" )
+        , ( "color", "#E4B7E5" )
         , ( "font-weight", "normal" )
         ]

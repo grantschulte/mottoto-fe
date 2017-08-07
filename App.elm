@@ -32,9 +32,6 @@ init location =
 
 
 
--- init : Location -> ( Model, Cmd Msg )
--- init location =
---     ( parseModelFromUrl location, Cmd.none )
 -- VIEW
 
 
