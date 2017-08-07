@@ -6,10 +6,10 @@ import Html.Events exposing (..)
 import Http exposing (..)
 import Json.Encode as Encode
 import Messages.Main exposing (..)
-import Models.Main exposing (Author, Model, Motto, decodeAuthorString)
+import Models.Main exposing (Author, Model, Motto, Page)
 import Navigation exposing (..)
 import String.Extra exposing (..)
-import UrlParser exposing ((</>), int, parseHash, parsePath, s, string)
+import UrlParser exposing ((</>), Parser, int, oneOf, parseHash, parsePath, s, string, top)
 import Views.Header exposing (..)
 import Views.Motto exposing (..)
 import Views.Welcome exposing (..)
@@ -20,17 +20,21 @@ import Views.Welcome exposing (..)
 
 initModel : Model
 initModel =
-    { author = ""
+    { author = Nothing
     , motto = ""
+    , page = Models.Main.WelcomePage
     }
 
 
 init : Location -> ( Model, Cmd Msg )
 init location =
-    ( parseModelFromUrl location, Cmd.none )
+    ( { initModel | page = parseLocation location }, Cmd.none )
 
 
 
+-- init : Location -> ( Model, Cmd Msg )
+-- init location =
+--     ( parseModelFromUrl location, Cmd.none )
 -- VIEW
 
 
@@ -45,12 +49,16 @@ view model =
 
 page : Model -> Html Msg
 page model =
-    case model.author of
-        "" ->
+    case model.page of
+        Models.Main.WelcomePage ->
             Views.Welcome.view model
 
+        Models.Main.AuthorPage authorId ->
+            Views.Motto.view model authorId
+
         _ ->
-            Views.Motto.view model
+            div []
+                [ text "Not found" ]
 
 
 
@@ -94,27 +102,25 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            ( parseModelFromUrl location, Cmd.none )
+            ( { model | page = parseLocation location }, Cmd.none )
 
 
-parseModelFromUrl : Location -> Model
-parseModelFromUrl location =
-    case parseHash urlModel location of
+routeMatchers : Parser (Page -> a) a
+routeMatchers =
+    oneOf
+        [ UrlParser.map Models.Main.WelcomePage top
+        , UrlParser.map Models.Main.AuthorPage (UrlParser.s "author" </> string)
+        ]
+
+
+parseLocation : Location -> Page
+parseLocation location =
+    case parseHash routeMatchers location of
+        Just route ->
+            route
+
         Nothing ->
-            initModel
-
-        Just newModel ->
-            newModel
-
-
-rawModelFromUrl : UrlParser.Parser (Author -> Motto -> a) a
-rawModelFromUrl =
-    UrlParser.s "author" </> string </> UrlParser.s "motto" </> string
-
-
-urlModel : UrlParser.Parser (Model -> a) a
-urlModel =
-    UrlParser.map Model rawModelFromUrl
+            Models.Main.WelcomePage
 
 
 

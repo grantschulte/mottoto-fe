@@ -8,31 +8,42 @@ type alias Motto =
     String
 
 
-type alias Author =
+type alias AuthorId =
     String
 
 
+type alias Author =
+    { name : String
+    , id : AuthorId
+    }
+
+
+type Page
+    = AuthorPage AuthorId
+    | Login
+    | Motto
+    | NewAccount
+    | Profile
+    | WelcomePage
+
+
 type alias Model =
-    { author : Author
+    { author : Maybe Author
     , motto : Motto
+    , page : Page
     }
 
 
 authorString : String -> String
 authorString author =
-    case author of
-        "" ->
+    "- " ++ String.Extra.decapitalize author
+
+
+decodeString : String -> String
+decodeString string =
+    case decodeUri string of
+        Nothing ->
             ""
 
-        _ ->
-            "- " ++ String.Extra.decapitalize author
-
-
-decodeAuthorString : Author -> Author
-decodeAuthorString author =
-    case decodeUri author of
-        Nothing ->
-            author
-
         Just decoded ->
-            authorString decoded
+            decoded

@@ -3,7 +3,7 @@ module Views.Header exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Messages.Main exposing (Msg)
-import Models.Main exposing (Model, decodeAuthorString)
+import Models.Main exposing (Author, Model, authorString, decodeString)
 
 
 view : Model -> Html Msg
@@ -11,8 +11,18 @@ view model =
     header [ headerStyle ]
         [ div [ columnStyle ] [ text "Mottoto" ]
         , div [ columnStyle, authorStyle ]
-            [ text (decodeAuthorString model.author) ]
+            [ userActions model ]
         ]
+
+
+userActions : Model -> Html Msg
+userActions model =
+    case model.author of
+        Nothing ->
+            a [ href "/#/create" ] [ text "Create Motto" ]
+
+        Just author ->
+            text (authorString (decodeString author.name))
 
 
 headerStyle : Attribute msg
