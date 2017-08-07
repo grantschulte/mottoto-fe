@@ -10,8 +10,10 @@ import Models.Main exposing (Author, Model, Motto, Page)
 import Navigation exposing (..)
 import String.Extra exposing (..)
 import UrlParser exposing ((</>), Parser, int, oneOf, parseHash, parsePath, s, string, top)
+import Views.Author exposing (..)
 import Views.Header exposing (..)
-import Views.Motto exposing (..)
+import Views.Login exposing (..)
+import Views.NewHandle exposing (..)
 import Views.Welcome exposing (..)
 
 
@@ -21,7 +23,7 @@ import Views.Welcome exposing (..)
 initModel : Model
 initModel =
     { author = Nothing
-    , motto = ""
+    , motto = "Keep it right, keep it tight."
     , page = Models.Main.WelcomePage
     }
 
@@ -51,7 +53,13 @@ page model =
             Views.Welcome.view model
 
         Models.Main.AuthorPage authorId ->
-            Views.Motto.view model authorId
+            Views.Author.view model authorId
+
+        Models.Main.NewHandlePage ->
+            Views.NewHandle.view model
+
+        Models.Main.LoginPage ->
+            Views.Login.view model
 
         _ ->
             div []
@@ -106,6 +114,8 @@ routeMatchers : Parser (Page -> a) a
 routeMatchers =
     oneOf
         [ UrlParser.map Models.Main.WelcomePage top
+        , UrlParser.map Models.Main.NewHandlePage (UrlParser.s "handle")
+        , UrlParser.map Models.Main.LoginPage (UrlParser.s "login")
         , UrlParser.map Models.Main.AuthorPage (UrlParser.s "author" </> string)
         ]
 

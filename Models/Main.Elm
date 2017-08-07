@@ -20,9 +20,9 @@ type alias Author =
 
 type Page
     = AuthorPage AuthorId
-    | Login
+    | LoginPage
     | Motto
-    | NewAccount
+    | NewHandlePage
     | Profile
     | WelcomePage
 

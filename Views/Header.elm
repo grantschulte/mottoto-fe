@@ -9,7 +9,8 @@ import Models.Main exposing (Author, Model, authorString, decodeString)
 view : Model -> Html Msg
 view model =
     header [ headerStyle ]
-        [ div [ columnStyle ] [ text "Mottoto" ]
+        [ div [ columnStyle ]
+            [ a [ href "#/", logoStyle ] [ text "Mottoto" ] ]
         , div [ columnStyle, linkStyle ]
             [ userActions model ]
         ]
@@ -19,7 +20,7 @@ userActions : Model -> Html Msg
 userActions model =
     case model.author of
         Nothing ->
-            a [ href "#/create", linkStyle ] [ text "Create Motto" ]
+            a [ href "#/new-author", linkStyle ] [ text "Create Handle" ]
 
         Just author ->
             text (authorString (decodeString author.name))
@@ -45,6 +46,14 @@ columnStyle : Attribute msg
 columnStyle =
     style
         [ ( "width", "50%" ) ]
+
+
+logoStyle : Attribute msg
+logoStyle =
+    style
+        [ ( "text-decoration", "none" )
+        , ( "color", "#E4B7E5" )
+        ]
 
 
 linkStyle : Attribute msg
