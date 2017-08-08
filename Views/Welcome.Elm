@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Messages exposing (Msg)
 import Models exposing (Model)
+import Styles exposing (..)
 
 
 -- VIEW
@@ -11,38 +12,44 @@ import Models exposing (Model)
 
 view : Model -> Html Msg
 view model =
-    div [ welcomeMessageStyle ]
-        [ div [ headingStyle ]
-            [ text "What's your motto? "
-            , a [ href "#/login", createStyle ] [ text "Create." ]
+    div [ Styles.pageWrapper ]
+        [ div [ welcomeWrapper ]
+            [ h1 [ Styles.formHeading ] [ text "mot·to" ]
+            , p [ pStyle, italicStyle ] [ text "noun" ]
+            , p [ pStyle ] [ text "a short sentence or phrase chosen as encapsulating the beliefs or ideals guiding an individual, family, or institution." ]
+            , a [ Styles.formButton, buttonStyle, href "#/login" ] [ text "Compose" ]
             ]
         ]
 
 
-
--- STYLES
-
-
-welcomeMessageStyle : Attribute msg
-welcomeMessageStyle =
+welcomeWrapper : Attribute msg
+welcomeWrapper =
     style
-        [ ( "font-size", "18px" )
-        , ( "width", "100%" )
-        , ( "text-align", "center" )
+        [ ( "max-width", "500px" )
+        , ( "margin", "0 auto" )
         ]
 
 
-createStyle : Attribute msg
-createStyle =
+buttonStyle : Attribute msg
+buttonStyle =
     style
-        [ ( "text-decoration", "underline" )
-        , ( "cursor", "pointer" )
+        [ ( "width", "200px" )
+        , ( "height", "45px" )
+        , ( "margin", "40px auto 0" )
+        , ( "font-size", "18px" )
+        , ( "text-decoration", "none" )
         ]
 
 
-headingStyle : Attribute msg
-headingStyle =
+pStyle : Attribute msg
+pStyle =
     style
-        [ ( "font-weight", "normal" )
-        , ( "font-size", "56px" )
+        [ ( "line-height", "1.4" )
+        ]
+
+
+italicStyle : Attribute msg
+italicStyle =
+    style
+        [ ( "font-style", "italic" )
         ]

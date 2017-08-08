@@ -7,9 +7,9 @@ import Models exposing (Author, Model, Motto)
 import Navigation exposing (..)
 import Routes exposing (parseLocation)
 import Views.Author exposing (view)
+import Views.Compose exposing (view)
 import Views.Header exposing (view)
 import Views.Login exposing (view)
-import Views.Motto exposing (view)
 import Views.NewHandle exposing (view)
 import Views.Profile exposing (view)
 import Views.Welcome exposing (view)
@@ -60,8 +60,8 @@ page model =
         Models.LoginPage ->
             Views.Login.view model
 
-        Models.MottoPage ->
-            Views.Motto.view model
+        Models.ComposePage ->
+            Views.Compose.view model
 
         Models.ProfilePage userId ->
             Views.Profile.view model userId

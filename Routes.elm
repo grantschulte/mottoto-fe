@@ -11,7 +11,7 @@ routeMatchers =
         [ UrlParser.map Models.WelcomePage top
         , UrlParser.map Models.NewHandlePage (UrlParser.s "handle")
         , UrlParser.map Models.LoginPage (UrlParser.s "login")
-        , UrlParser.map Models.MottoPage (UrlParser.s "motto")
+        , UrlParser.map Models.ComposePage (UrlParser.s "compose")
         , UrlParser.map Models.ProfilePage (UrlParser.s "profile" </> string)
         , UrlParser.map Models.AuthorPage (UrlParser.s "author" </> string)
         ]

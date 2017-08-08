@@ -14,8 +14,8 @@ view : Model -> Html Msg
 view model =
     header [ headerStyle ]
         [ div [ columnStyle ]
-            [ a [ href "#/", logoStyle ] [ text "Mottoto" ] ]
-        , div [ columnStyle, linkStyle ]
+            [ a [ href "#/", logoStyle ] [ text "mottoto" ] ]
+        , div [ columnStyle, style [ ( "text-align", "right" ) ] ]
             [ userActions model ]
         ]
 
@@ -26,20 +26,23 @@ userActions model =
         Nothing ->
             let
                 loginLink =
-                    a [ href "#/login", linkStyle ] [ text "Login" ]
+                    a [ href "#/login", buttonStyle ] [ text "L" ]
 
                 createHandleLink =
-                    a [ href "#/handle", linkStyle ] [ text "Create Handle" ]
+                    a [ href "#/handle", buttonStyle ] [ text "H" ]
             in
             if model.page == Models.LoginPage then
                 createHandleLink
             else if model.page == Models.NewHandlePage then
                 loginLink
             else
-                div [] [ loginLink, text " - ", createHandleLink ]
+                div [] [ loginLink, createHandleLink ]
 
         Just user ->
-            text "userHandle"
+            div []
+                [ a [ href "#/compose", buttonStyle ] [ text "C" ]
+                , a [ href "#/profile", buttonStyle ] [ text "U" ]
+                ]
 
 
 
@@ -79,9 +82,31 @@ logoStyle =
 linkStyle : Attribute msg
 linkStyle =
     style
-        [ ( "text-align", "right" )
-        , ( "text-decoration", "none" )
-        , ( "font-size", "18px" )
+        [ ( "text-decoration", "none" )
+        , ( "font-size", "12px" )
+        , ( "font-family", "Helvetica" )
         , ( "color", "#E4B7E5" )
         , ( "font-weight", "normal" )
+        ]
+
+
+buttonStyle : Attribute msg
+buttonStyle =
+    style
+        [ ( "display", "inline-block" )
+        , ( "text-decoration", "none" )
+        , ( "font-size", "16px" )
+        , ( "font-family", "Georgia" )
+        , ( "font-weight", "bold" )
+        , ( "border", "1px solid #E4B7E5" )
+        , ( "color", "#E4B7E5" )
+        , ( "background-color", "transparent" )
+        , ( "height", "32px" )
+        , ( "width", "32px" )
+        , ( "line-height", "32px" )
+        , ( "text-align", "center" )
+        , ( "box-shadow", "none" )
+        , ( "font-weight", "normal" )
+        , ( "border-radius", "3px" )
+        , ( "margin", "0 0 0 5px" )
         ]

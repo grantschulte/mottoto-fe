@@ -39,7 +39,7 @@ type alias Model =
 type Page
     = AuthorPage UserId
     | LoginPage
-    | MottoPage
+    | ComposePage
     | NewHandlePage
     | ProfilePage UserId
     | WelcomePage
