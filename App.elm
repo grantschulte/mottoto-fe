@@ -2,20 +2,17 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import Http exposing (..)
-import Json.Encode as Encode
-import Messages.Main exposing (..)
-import Models.Main exposing (Author, Model, Motto, Page)
+import Messages exposing (..)
+import Models exposing (Author, Model, Motto)
 import Navigation exposing (..)
-import String.Extra exposing (..)
-import UrlParser exposing ((</>), Parser, int, oneOf, parseHash, parsePath, s, string, top)
-import Views.Author exposing (..)
-import Views.Header exposing (..)
-import Views.Login exposing (..)
-import Views.Motto exposing (..)
-import Views.NewHandle exposing (..)
-import Views.Welcome exposing (..)
+import Routes exposing (parseLocation)
+import Views.Author exposing (view)
+import Views.Header exposing (view)
+import Views.Login exposing (view)
+import Views.Motto exposing (view)
+import Views.NewHandle exposing (view)
+import Views.Profile exposing (view)
+import Views.Welcome exposing (view)
 
 
 -- MODEL
@@ -23,15 +20,16 @@ import Views.Welcome exposing (..)
 
 initModel : Model
 initModel =
-    { author = Nothing
+    { user = Nothing
+    , author = Nothing
     , motto = "Keep it right, keep it tight."
-    , page = Models.Main.WelcomePage
+    , page = Models.WelcomePage
     }
 
 
 init : Location -> ( Model, Cmd Msg )
 init location =
-    ( { initModel | page = parseLocation location }, Cmd.none )
+    ( { initModel | page = Routes.parseLocation location }, Cmd.none )
 
 
 
@@ -50,28 +48,27 @@ view model =
 page : Model -> Html Msg
 page model =
     case model.page of
-        Models.Main.WelcomePage ->
+        Models.WelcomePage ->
             Views.Welcome.view model
 
-        Models.Main.AuthorPage authorId ->
+        Models.AuthorPage authorId ->
             Views.Author.view model authorId
 
-        Models.Main.NewHandlePage ->
+        Models.NewHandlePage ->
             Views.NewHandle.view model
 
-        Models.Main.LoginPage ->
+        Models.LoginPage ->
             Views.Login.view model
 
-        Models.Main.MottoPage ->
+        Models.MottoPage ->
             Views.Motto.view model
 
-        _ ->
-            div []
-                [ text "Not found" ]
+        Models.ProfilePage userId ->
+            Views.Profile.view model userId
 
 
 
--- STYLE
+-- STYLES
 
 
 pageWrapperStyle : Attribute msg
@@ -111,28 +108,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            ( { model | page = parseLocation location }, Cmd.none )
-
-
-routeMatchers : Parser (Page -> a) a
-routeMatchers =
-    oneOf
-        [ UrlParser.map Models.Main.WelcomePage top
-        , UrlParser.map Models.Main.NewHandlePage (UrlParser.s "handle")
-        , UrlParser.map Models.Main.LoginPage (UrlParser.s "login")
-        , UrlParser.map Models.Main.MottoPage (UrlParser.s "motto")
-        , UrlParser.map Models.Main.AuthorPage (UrlParser.s "author" </> string)
-        ]
-
-
-parseLocation : Location -> Page
-parseLocation location =
-    case parseHash routeMatchers location of
-        Just route ->
-            route
-
-        Nothing ->
-            Models.Main.WelcomePage
+            ( { model | page = Routes.parseLocation location }, Cmd.none )
 
 
 

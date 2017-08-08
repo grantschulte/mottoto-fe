@@ -1,4 +1,4 @@
-module Messages.Main exposing (..)
+module Messages exposing (..)
 
 import Navigation exposing (..)
 

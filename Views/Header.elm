@@ -2,8 +2,12 @@ module Views.Header exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Messages.Main exposing (Msg)
-import Models.Main exposing (Author, Model, authorString, decodeString)
+import Messages exposing (Msg)
+import Models exposing (Author, Model)
+import Utils exposing (authorHandleString)
+
+
+-- VIEW
 
 
 view : Model -> Html Msg
@@ -18,15 +22,28 @@ view model =
 
 userActions : Model -> Html Msg
 userActions model =
-    case model.author of
+    case model.user of
         Nothing ->
-            if model.page == Models.Main.NewHandlePage then
-                a [ href "#/login", linkStyle ] [ text "Login" ]
-            else
-                a [ href "#/handle", linkStyle ] [ text "Create Handle" ]
+            let
+                loginLink =
+                    a [ href "#/login", linkStyle ] [ text "Login" ]
 
-        Just author ->
-            text (authorString (decodeString author.name))
+                createHandleLink =
+                    a [ href "#/handle", linkStyle ] [ text "Create Handle" ]
+            in
+            if model.page == Models.LoginPage then
+                createHandleLink
+            else if model.page == Models.NewHandlePage then
+                loginLink
+            else
+                div [] [ loginLink, text " - ", createHandleLink ]
+
+        Just user ->
+            text "userHandle"
+
+
+
+-- STYLES
 
 
 headerStyle : Attribute msg

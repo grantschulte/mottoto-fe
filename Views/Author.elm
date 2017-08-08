@@ -4,8 +4,8 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Http exposing (decodeUri)
 import Json.Encode as Encode
-import Messages.Main exposing (Msg)
-import Models.Main exposing (Author, Model, Motto)
+import Messages exposing (Msg)
+import Models exposing (Author, Model, Motto)
 
 
 -- VIEW

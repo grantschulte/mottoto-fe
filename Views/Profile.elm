@@ -1,21 +1,21 @@
-module Views.Motto exposing (..)
+module Views.Profile exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Messages exposing (Msg)
-import Models exposing (Model)
+import Models exposing (Model, UserId)
+import Utils exposing (authorHandleString, decodeString)
 
 
 -- VIEW
 
 
-view : Model -> Html Msg
-view model =
+view : Model -> UserId -> Html Msg
+view model userId =
     div [ pageWrapperStyle ]
         [ div [ headingStyle ]
-            [ label [] [ text "Compose a new motto..." ]
-            , textarea [] [ text model.motto ]
-            , button [] [ text "Publish" ]
+            [ text "Profile "
+            , text (authorHandleString (decodeString userId))
             ]
         ]
 

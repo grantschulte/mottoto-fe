@@ -2,8 +2,11 @@ module Views.Welcome exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Messages.Main exposing (Msg)
-import Models.Main exposing (Model)
+import Messages exposing (Msg)
+import Models exposing (Model)
+
+
+-- VIEW
 
 
 view : Model -> Html Msg
@@ -11,9 +14,13 @@ view model =
     div [ welcomeMessageStyle ]
         [ div [ headingStyle ]
             [ text "What's your motto? "
-            , a [ createStyle ] [ text "Create." ]
+            , a [ href "#/login", createStyle ] [ text "Create." ]
             ]
         ]
+
+
+
+-- STYLES
 
 
 welcomeMessageStyle : Attribute msg

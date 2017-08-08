@@ -2,8 +2,11 @@ module Views.Login exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Messages.Main exposing (Msg)
-import Models.Main exposing (Model)
+import Messages exposing (Msg)
+import Models exposing (Model)
+
+
+-- VIEW
 
 
 view : Model -> Html Msg
@@ -12,6 +15,10 @@ view model =
         [ div [ headingStyle ]
             [ text "Login with your handle" ]
         ]
+
+
+
+-- STYLES
 
 
 pageWrapperStyle : Attribute msg
