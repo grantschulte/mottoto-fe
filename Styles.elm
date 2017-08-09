@@ -73,7 +73,7 @@ formHeading : Attribute msg
 formHeading =
     style
         [ ( "font-weight", "normal" )
-        , ( "font-size", "36px" )
+        , ( "font-size", "28px" )
         , ( "margin-top", "0" )
         , ( "margin-bottom", "30px" )
         ]
